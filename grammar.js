@@ -32,8 +32,6 @@ module.exports = grammar({
         $.import_statement,
       ),
 
-    // ── Top-level blocks ──────────────────────────────────────────────
-
     specification_block: ($) =>
       seq("specification", "{", repeat($._specification_item), "}"),
 
@@ -42,8 +40,7 @@ module.exports = grammar({
     views_block: ($) =>
       seq("views", optional($.string), "{", repeat($._views_item), "}"),
 
-    deployment_block: ($) =>
-      seq("deployment", "{", repeat($._deployment_item), "}"),
+    deployment_block: ($) => seq("deployment", "{", repeat($._deployment_item), "}"),
 
     global_block: ($) => seq("global", "{", repeat($._global_item), "}"),
 
@@ -59,8 +56,6 @@ module.exports = grammar({
         "from",
         $.string,
       ),
-
-    // ── Specification items ───────────────────────────────────────────
 
     _specification_item: ($) =>
       choice(
@@ -82,18 +77,17 @@ module.exports = grammar({
       seq(
         "tag",
         field("name", $.identifier),
-        optional(seq("{", repeat($._style_property), "}")),
+        optional(seq("{", repeat($.style_property), "}")),
       ),
 
     relationship_kind_declaration: ($) =>
       seq(
         "relationship",
         field("name", $.identifier),
-        optional(seq("{", repeat($._style_property), "}")),
+        optional(seq("{", repeat($.style_property), "}")),
       ),
 
-    color_declaration: ($) =>
-      seq("color", field("name", $.identifier), $._color_value),
+    color_declaration: ($) => seq("color", field("name", $.identifier), $._color_value),
 
     deployment_node_kind_declaration: ($) =>
       seq(
@@ -102,10 +96,7 @@ module.exports = grammar({
         optional(seq("{", repeat($._element_kind_body_item), "}")),
       ),
 
-    _element_kind_body_item: ($) =>
-      choice($._string_property, $.style_block, $._semicolon),
-
-    // ── Model items ──────────────────────────────────────────────────
+    _element_kind_body_item: ($) => choice($.string_property, $.style_block, $._semicolon),
 
     _model_item: ($) =>
       choice(
@@ -117,25 +108,25 @@ module.exports = grammar({
       ),
 
     element_declaration: ($) =>
-      prec.right(choice(
-        // kind-first: component backend 'Title' { ... }
-        seq(
-          field("kind", $.identifier),
-          field("name", $.identifier),
-          repeat($.string),
-          optional($.tags),
-          optional($.element_body),
+      prec.right(
+        choice(
+          seq(
+            field("kind", $.identifier),
+            field("name", $.identifier),
+            repeat($.string),
+            optional($.tags),
+            optional($.element_body),
+          ),
+          seq(
+            field("name", $.identifier),
+            "=",
+            field("kind", $.identifier),
+            repeat($.string),
+            optional($.tags),
+            optional($.element_body),
+          ),
         ),
-        // assignment: backend = component 'Title' { ... }
-        seq(
-          field("name", $.identifier),
-          "=",
-          field("kind", $.identifier),
-          repeat($.string),
-          optional($.tags),
-          optional($.element_body),
-        ),
-      )),
+      ),
 
     element_body: ($) => seq("{", repeat($._element_body_item), "}"),
 
@@ -143,7 +134,8 @@ module.exports = grammar({
       choice(
         $.element_declaration,
         $.relation,
-        $._string_property,
+        $.sourceless_relation,
+        $.string_property,
         $.link_property,
         $.icon_property,
         $.style_block,
@@ -152,27 +144,59 @@ module.exports = grammar({
         $._semicolon,
       ),
 
-    extend_element: ($) =>
-      seq("extend", $.fqn_ref, "{", repeat($._element_body_item), "}"),
+    extend_element: ($) => seq("extend", $.fqn_ref, "{", repeat($._element_body_item), "}"),
 
     extend_relation: ($) =>
-      seq(
-        "extend",
-        $.fqn_ref,
-        $._arrow,
-        $.fqn_ref,
-        repeat($.string),
-        optional(seq("{", repeat($._relation_body_item), "}")),
+      choice(
+        seq(
+          "extend",
+          $.fqn_ref,
+          $._relation_arrow,
+          $.fqn_ref,
+          repeat($.string),
+          optional(seq("{", repeat($._relation_body_item), "}")),
+        ),
+        seq(
+          "extend",
+          $._simple_relation_target,
+          $.dot_relation,
+          $._simple_relation_target,
+          repeat($.string),
+          optional(seq("{", repeat($._relation_body_item), "}")),
+        ),
       ),
 
-    // ── Relations ────────────────────────────────────────────────────
-
     relation: ($) =>
+      choice(
+        prec.right(
+          PREC.RELATION,
+          seq(
+            field("source", $._relation_target),
+            $._relation_arrow,
+            field("target", $._relation_target),
+            repeat($.string),
+            optional($.tags),
+            optional(seq("{", repeat($._relation_body_item), "}")),
+          ),
+        ),
+        prec.right(
+          PREC.RELATION,
+          seq(
+            field("source", $._simple_relation_target),
+            $.dot_relation,
+            field("target", $._relation_target),
+            repeat($.string),
+            optional($.tags),
+            optional(seq("{", repeat($._relation_body_item), "}")),
+          ),
+        ),
+      ),
+
+    sourceless_relation: ($) =>
       prec.right(
         PREC.RELATION,
         seq(
-          optional(field("source", $._relation_target)),
-          $._arrow,
+          $._sourceless_arrow,
           field("target", $._relation_target),
           repeat($.string),
           optional($.tags),
@@ -180,29 +204,35 @@ module.exports = grammar({
         ),
       ),
 
-    _relation_target: ($) =>
-      choice($.fqn_ref, "this", "it"),
+    _relation_target: ($) => choice($.fqn_ref, "this", "it"),
 
-    _arrow: ($) =>
+    _simple_relation_target: ($) => choice($.identifier, "this", "it"),
+
+    _relation_arrow: ($) =>
       choice(
         $.arrow_directed,
         $.arrow_backward,
         $.arrow_bidirectional,
         $.arrow_typed,
-        $.dot_relation,
+      ),
+
+    _sourceless_arrow: ($) =>
+      choice(
+        $.arrow_directed,
+        $.arrow_backward,
+        $.arrow_bidirectional,
+        $.arrow_typed,
       ),
 
     arrow_directed: (_) => "->",
     arrow_backward: (_) => "<-",
     arrow_bidirectional: (_) => "<->",
-    arrow_typed: ($) =>
-      seq("-[", field("kind", $.identifier), "]->"),
-    dot_relation: ($) =>
-      seq(".", field("kind", $.identifier)),
+    arrow_typed: ($) => seq("-[", field("kind", $.identifier), "]->"),
+    dot_relation: ($) => seq(".", field("kind", $.identifier)),
 
     _relation_body_item: ($) =>
       choice(
-        $._string_property,
+        $.string_property,
         $.link_property,
         $.navigate_to,
         $.style_block,
@@ -211,10 +241,7 @@ module.exports = grammar({
         $._semicolon,
       ),
 
-    // ── Views items ──────────────────────────────────────────────────
-
-    _views_item: ($) =>
-      choice($.view_declaration, $.dynamic_view_declaration),
+    _views_item: ($) => choice($.view_declaration, $.dynamic_view_declaration),
 
     view_declaration: ($) =>
       seq(
@@ -242,7 +269,7 @@ module.exports = grammar({
 
     _view_body_item: ($) =>
       choice(
-        $._string_property,
+        $.string_property,
         $.link_property,
         $.tags,
         $.include_statement,
@@ -257,7 +284,7 @@ module.exports = grammar({
 
     _dynamic_view_body_item: ($) =>
       choice(
-        $._string_property,
+        $.string_property,
         $.link_property,
         $.tags,
         $.dynamic_step,
@@ -272,48 +299,30 @@ module.exports = grammar({
         $._semicolon,
       ),
 
-    // ── View expressions ─────────────────────────────────────────────
+    include_statement: ($) => seq("include", commaSep1($._view_predicate)),
 
-    include_statement: ($) =>
-      seq("include", commaSep1($._view_predicate)),
-
-    exclude_statement: ($) =>
-      seq("exclude", commaSep1($._view_predicate)),
+    exclude_statement: ($) => seq("exclude", commaSep1($._view_predicate)),
 
     _view_predicate: ($) =>
-      seq(
-        $._view_expression,
-        optional($.where_clause),
-        optional($.with_clause),
-      ),
+      seq($._view_expression, optional($.where_clause), optional($.with_clause)),
 
-    _view_expression: ($) =>
-      choice(
-        $.wildcard,
-        $.element_ref,
-        $.relation_expression,
-        $.element_filter,
-      ),
+    _view_expression: ($) => choice($.wildcard, $.element_ref, $.relation_expression, $.element_filter),
 
     wildcard: (_) => "*",
 
-    element_ref: ($) =>
-      choice($.fqn_ref, $.descendant_ref),
+    element_ref: ($) => choice($.fqn_ref, $.descendant_ref),
 
-    descendant_ref: ($) =>
-      seq($.fqn_ref, choice(".*", ".**", "._")),
+    descendant_ref: ($) => seq($.fqn_ref, field("selector", $.descendant_selector)),
+
+    descendant_selector: (_) => choice(".*", ".**", "._"),
 
     relation_expression: ($) =>
       prec.right(
         PREC.RELATION,
         choice(
-          // -> target
           seq("->", $._view_expression),
-          // source -> target
           seq($._view_expression, "->", $._view_expression),
-          // source ->
           seq($._view_expression, "->"),
-          // bidirectional
           seq($._view_expression, "<->", $._view_expression),
         ),
       ),
@@ -347,8 +356,7 @@ module.exports = grammar({
     where_and: ($) => prec.left(2, seq($._where_expression, "and", $._where_expression)),
     where_or: ($) => prec.left(1, seq($._where_expression, "or", $._where_expression)),
 
-    with_clause: ($) =>
-      seq("with", "{", repeat($._style_property), "}"),
+    with_clause: ($) => seq("with", "{", repeat($.style_property), "}"),
 
     auto_layout: ($) =>
       seq(
@@ -363,18 +371,11 @@ module.exports = grammar({
         "style",
         commaSep1(choice($.wildcard, $.fqn_ref, $.descendant_ref, $.element_filter)),
         "{",
-        repeat($._style_property),
+        repeat($.style_property),
         "}",
       ),
 
-    view_group: ($) =>
-      seq(
-        "group",
-        optional($.string),
-        "{",
-        repeat($._view_body_item),
-        "}",
-      ),
+    view_group: ($) => seq("group", optional($.string), "{", repeat($._view_body_item), "}"),
 
     view_rank: ($) =>
       seq(
@@ -385,8 +386,7 @@ module.exports = grammar({
         "}",
       ),
 
-    global_ref: ($) =>
-      seq("global", choice("predicate", "style"), $.identifier),
+    global_ref: ($) => seq("global", choice("predicate", "style"), $.identifier),
 
     dynamic_step: ($) =>
       prec(
@@ -401,50 +401,39 @@ module.exports = grammar({
         ),
       ),
 
-    parallel_block: ($) =>
-      seq(
-        choice("parallel", "par"),
-        "{",
-        repeat($.dynamic_step),
-        "}",
-      ),
+    parallel_block: ($) => seq(choice("parallel", "par"), "{", repeat($.dynamic_step), "}"),
 
     variant_property: ($) => seq("variant", $.string),
 
-    // ── Deployment items ─────────────────────────────────────────────
-
-    _deployment_item: ($) =>
-      choice(
-        $.deployment_node,
-        $.deployment_relation,
-        $._semicolon,
-      ),
+    _deployment_item: ($) => choice($.deployment_node, $.deployment_relation, $._semicolon),
 
     deployment_node: ($) =>
-      prec.right(choice(
-        seq(
-          field("kind", $.identifier),
-          field("name", $.identifier),
-          repeat($.string),
-          optional($.tags),
-          optional(seq("{", repeat($._deployment_node_body_item), "}")),
+      prec.right(
+        choice(
+          seq(
+            field("kind", $.identifier),
+            field("name", $.identifier),
+            repeat($.string),
+            optional($.tags),
+            optional(seq("{", repeat($._deployment_node_body_item), "}")),
+          ),
+          seq(
+            field("name", $.identifier),
+            "=",
+            field("kind", $.identifier),
+            repeat($.string),
+            optional($.tags),
+            optional(seq("{", repeat($._deployment_node_body_item), "}")),
+          ),
         ),
-        seq(
-          field("name", $.identifier),
-          "=",
-          field("kind", $.identifier),
-          repeat($.string),
-          optional($.tags),
-          optional(seq("{", repeat($._deployment_node_body_item), "}")),
-        ),
-      )),
+      ),
 
     _deployment_node_body_item: ($) =>
       choice(
         $.deployment_node,
         $.instance_of,
         $.deployment_relation,
-        $._string_property,
+        $.string_property,
         $.link_property,
         $.icon_property,
         $.style_block,
@@ -472,15 +461,7 @@ module.exports = grammar({
         ),
       ),
 
-    // ── Global items ─────────────────────────────────────────────────
-
-    _global_item: ($) =>
-      choice(
-        $.predicate_group,
-        $.dynamic_predicate_group,
-        $.global_style,
-        $.global_style_group,
-      ),
+    _global_item: ($) => choice($.predicate_group, $.dynamic_predicate_group, $.global_style, $.global_style_group),
 
     predicate_group: ($) =>
       seq(
@@ -506,7 +487,7 @@ module.exports = grammar({
         field("name", $.identifier),
         commaSep1(choice($.wildcard, $.fqn_ref, $.descendant_ref, $.element_filter)),
         "{",
-        repeat($._style_property),
+        repeat($.style_property),
         "}",
       ),
 
@@ -519,84 +500,85 @@ module.exports = grammar({
         "}",
       ),
 
-    // ── likec4lib ────────────────────────────────────────────────────
+    _likec4lib_item: ($) => seq("icons", "{", repeat($.lib_icon), "}"),
 
-    _likec4lib_item: ($) =>
-      seq("icons", "{", repeat($.lib_icon), "}"),
+    style_block: ($) => seq("style", "{", repeat($.style_property), "}"),
 
-    // ── Common constructs ────────────────────────────────────────────
-
-    style_block: ($) => seq("style", "{", repeat($._style_property), "}"),
-
-    _style_property: ($) =>
-      prec.right(seq(
-        field(
-          "key",
-          choice(
-            "color",
-            "shape",
-            "border",
-            "opacity",
-            "icon",
-            "iconColor",
-            "iconSize",
-            "iconPosition",
-            "multiple",
-            "size",
-            "padding",
-            "textSize",
-            "line",
-            "head",
-            "tail",
-            "title",
-            "description",
-            "technology",
-            "notation",
-            "notes",
-            "summary",
-          ),
-        ),
-        optional(":"),
-        $._property_value,
-        optional(";"),
-      )),
-
-    _string_property: ($) =>
+    style_property: ($) =>
       prec.right(
         seq(
           field(
             "key",
-            choice("title", "description", "technology", "notation", "notes", "summary"),
+            $.style_property_key,
           ),
           optional(":"),
-          $.string,
+          field("value", $.property_value),
           optional(";"),
         ),
       ),
 
-    link_property: ($) =>
-      seq("link", $._uri, optional($.string)),
+    style_property_key: (_) =>
+      choice(
+        "color",
+        "shape",
+        "border",
+        "opacity",
+        "icon",
+        "iconColor",
+        "iconSize",
+        "iconPosition",
+        "multiple",
+        "size",
+        "padding",
+        "textSize",
+        "line",
+        "head",
+        "tail",
+        "title",
+        "description",
+        "technology",
+        "notation",
+        "notes",
+        "summary",
+      ),
 
-    icon_property: ($) =>
-      seq("icon", choice($._uri, $.lib_icon, "none")),
+    string_property: ($) =>
+      prec.right(
+        seq(
+          field(
+            "key",
+            $.string_property_key,
+          ),
+          optional(":"),
+          field("value", $.string),
+          optional(";"),
+        ),
+      ),
+
+    string_property_key: (_) =>
+      choice("title", "description", "technology", "notation", "notes", "summary"),
+
+    link_property: ($) => seq("link", $._uri, optional($.string)),
+
+    icon_property: ($) => seq("icon", choice($._uri, $.lib_icon, "none")),
 
     navigate_to: ($) => seq("navigateTo", $.identifier),
 
-    metadata_block: ($) =>
-      seq("metadata", "{", repeat($.metadata_entry), "}"),
+    metadata_block: ($) => seq("metadata", "{", repeat($.metadata_entry), "}"),
 
     metadata_entry: ($) =>
-      prec.right(seq(
-        field("key", $.identifier),
-        optional(":"),
-        choice($.string, $.metadata_array),
-        optional(";"),
-      )),
+      prec.right(
+        seq(
+          field("key", $.identifier),
+          optional(":"),
+          choice($.string, $.metadata_array),
+          optional(";"),
+        ),
+      ),
 
-    metadata_array: ($) =>
-      seq("[", commaSep1($.string), "]"),
+    metadata_array: ($) => seq("[", commaSep1($.string), "]"),
 
-    _property_value: ($) =>
+    property_value: ($) =>
       choice(
         $.string,
         $.identifier,
@@ -614,10 +596,9 @@ module.exports = grammar({
     tag_ref: ($) => seq("#", $.identifier),
 
     fqn_ref: ($) =>
-      prec.left(
-        PREC.DOT,
-        seq($.identifier, repeat(seq(".", $.identifier))),
-      ),
+      prec.dynamic(2, prec.left(PREC.DOT, seq(field("root", $.identifier), repeat($.fqn_member)))),
+
+    fqn_member: ($) => seq(".", field("name", $.identifier)),
 
     _uri: ($) => choice($.uri_with_schema, $.uri_relative, $.uri_alias),
 
@@ -644,8 +625,6 @@ module.exports = grammar({
 
     _semicolon: (_) => ";",
 
-    // ── Terminals ────────────────────────────────────────────────────
-
     comment: (_) =>
       token(
         choice(
@@ -665,24 +644,15 @@ module.exports = grammar({
       ),
 
     identifier: (_) => /[_]*[a-zA-Z][-\w]*/,
-
     number: (_) => /\d+/,
-
     float: (_) => /\d+\.\d+/,
-
     percentage: (_) => /\d+%/,
-
     boolean: (_) => choice("true", "false"),
-
     hex_digits: (_) => /[a-fA-F0-9]{3,8}/,
-
     lib_icon: (_) => /(?:aws|azure|bootstrap|gcp|tech):[-\w]+/,
-
     uri_with_schema: (_) => /\w+:\/\/\S+/,
-
     uri_relative: (_) => /\.{0,2}\/[^\/]\S*/,
-
-    uri_alias: (_) => /@[a-zA-Z0-9_-]*\/\S+/,
+    uri_alias: (_) => /@[a-zA-Z0-9_-]*\/\S+/
   },
 });
 

@@ -107,36 +107,6 @@
     "type": "deployment_node",
     "named": true,
     "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      },
       "kind": {
         "multiple": false,
         "required": true,
@@ -191,6 +161,10 @@
           "named": true
         },
         {
+          "type": "string_property",
+          "named": true
+        },
+        {
           "type": "style_block",
           "named": true
         },
@@ -205,36 +179,6 @@
     "type": "deployment_node_kind_declaration",
     "named": true,
     "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -251,7 +195,7 @@
       "required": false,
       "types": [
         {
-          "type": "string",
+          "type": "string_property",
           "named": true
         },
         {
@@ -265,36 +209,6 @@
     "type": "deployment_relation",
     "named": true,
     "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      },
       "source": {
         "multiple": false,
         "required": false,
@@ -337,6 +251,10 @@
           "named": true
         },
         {
+          "type": "string_property",
+          "named": true
+        },
+        {
           "type": "style_block",
           "named": true
         },
@@ -350,7 +268,18 @@
   {
     "type": "descendant_ref",
     "named": true,
-    "fields": {},
+    "fields": {
+      "selector": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "descendant_selector",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -361,6 +290,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "descendant_selector",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "dot_relation",
@@ -411,38 +345,7 @@
   {
     "type": "dynamic_step",
     "named": true,
-    "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -468,6 +371,10 @@
           "named": true
         },
         {
+          "type": "string_property",
+          "named": true
+        },
+        {
           "type": "style_block",
           "named": true
         },
@@ -489,36 +396,6 @@
           {
             "type": "identifier",
             "named": true
-          }
-        ]
-      },
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
           }
         ]
       },
@@ -570,7 +447,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "string_property",
           "named": true
         },
         {
@@ -595,38 +472,7 @@
   {
     "type": "element_body",
     "named": true,
-    "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -652,7 +498,11 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sourceless_relation",
+          "named": true
+        },
+        {
+          "type": "string_property",
           "named": true
         },
         {
@@ -733,36 +583,6 @@
     "type": "element_kind_declaration",
     "named": true,
     "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -779,7 +599,7 @@
       "required": false,
       "types": [
         {
-          "type": "string",
+          "type": "string_property",
           "named": true
         },
         {
@@ -846,38 +666,7 @@
   {
     "type": "extend_element",
     "named": true,
-    "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -907,7 +696,11 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "sourceless_relation",
+          "named": true
+        },
+        {
+          "type": "string_property",
           "named": true
         },
         {
@@ -924,38 +717,7 @@
   {
     "type": "extend_relation",
     "named": true,
-    "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -985,6 +747,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "link_property",
           "named": true
         },
@@ -1001,6 +767,10 @@
           "named": true
         },
         {
+          "type": "string_property",
+          "named": true
+        },
+        {
           "type": "style_block",
           "named": true
         },
@@ -1012,15 +782,42 @@
     }
   },
   {
+    "type": "fqn_member",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "fqn_ref",
     "named": true,
-    "fields": {},
+    "fields": {
+      "root": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "identifier",
+          "type": "fqn_member",
           "named": true
         }
       ]
@@ -1072,96 +869,6 @@
     "type": "global_style",
     "named": true,
     "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "border",
-            "named": false
-          },
-          {
-            "type": "color",
-            "named": false
-          },
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "head",
-            "named": false
-          },
-          {
-            "type": "icon",
-            "named": false
-          },
-          {
-            "type": "iconColor",
-            "named": false
-          },
-          {
-            "type": "iconPosition",
-            "named": false
-          },
-          {
-            "type": "iconSize",
-            "named": false
-          },
-          {
-            "type": "line",
-            "named": false
-          },
-          {
-            "type": "multiple",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "opacity",
-            "named": false
-          },
-          {
-            "type": "padding",
-            "named": false
-          },
-          {
-            "type": "shape",
-            "named": false
-          },
-          {
-            "type": "size",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "tail",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "textSize",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -1178,10 +885,6 @@
       "required": true,
       "types": [
         {
-          "type": "boolean",
-          "named": true
-        },
-        {
           "type": "descendant_ref",
           "named": true
         },
@@ -1194,47 +897,7 @@
           "named": true
         },
         {
-          "type": "hex_color",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "lib_icon",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "percentage",
-          "named": true
-        },
-        {
-          "type": "rgb_color",
-          "named": true
-        },
-        {
-          "type": "rgba_color",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "uri_alias",
-          "named": true
-        },
-        {
-          "type": "uri_relative",
-          "named": true
-        },
-        {
-          "type": "uri_with_schema",
+          "type": "style_property",
           "named": true
         },
         {
@@ -1582,45 +1245,78 @@
     }
   },
   {
+    "type": "property_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "hex_color",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "lib_icon",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "percentage",
+          "named": true
+        },
+        {
+          "type": "rgb_color",
+          "named": true
+        },
+        {
+          "type": "rgba_color",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "uri_alias",
+          "named": true
+        },
+        {
+          "type": "uri_relative",
+          "named": true
+        },
+        {
+          "type": "uri_with_schema",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "relation",
     "named": true,
     "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      },
       "source": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "fqn_ref",
+            "named": true
+          },
+          {
+            "type": "identifier",
             "named": true
           },
           {
@@ -1693,6 +1389,10 @@
           "named": true
         },
         {
+          "type": "string_property",
+          "named": true
+        },
+        {
           "type": "style_block",
           "named": true
         },
@@ -1734,96 +1434,6 @@
     "type": "relationship_kind_declaration",
     "named": true,
     "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "border",
-            "named": false
-          },
-          {
-            "type": "color",
-            "named": false
-          },
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "head",
-            "named": false
-          },
-          {
-            "type": "icon",
-            "named": false
-          },
-          {
-            "type": "iconColor",
-            "named": false
-          },
-          {
-            "type": "iconPosition",
-            "named": false
-          },
-          {
-            "type": "iconSize",
-            "named": false
-          },
-          {
-            "type": "line",
-            "named": false
-          },
-          {
-            "type": "multiple",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "opacity",
-            "named": false
-          },
-          {
-            "type": "padding",
-            "named": false
-          },
-          {
-            "type": "shape",
-            "named": false
-          },
-          {
-            "type": "size",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "tail",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "textSize",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -1840,51 +1450,7 @@
       "required": false,
       "types": [
         {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "hex_color",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "lib_icon",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "percentage",
-          "named": true
-        },
-        {
-          "type": "rgb_color",
-          "named": true
-        },
-        {
-          "type": "rgba_color",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "uri_alias",
-          "named": true
-        },
-        {
-          "type": "uri_relative",
-          "named": true
-        },
-        {
-          "type": "uri_with_schema",
+          "type": "style_property",
           "named": true
         }
       ]
@@ -1969,6 +1535,80 @@
     }
   },
   {
+    "type": "sourceless_relation",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn_ref",
+            "named": true
+          },
+          {
+            "type": "it",
+            "named": false
+          },
+          {
+            "type": "this",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arrow_backward",
+          "named": true
+        },
+        {
+          "type": "arrow_bidirectional",
+          "named": true
+        },
+        {
+          "type": "arrow_directed",
+          "named": true
+        },
+        {
+          "type": "arrow_typed",
+          "named": true
+        },
+        {
+          "type": "link_property",
+          "named": true
+        },
+        {
+          "type": "metadata_block",
+          "named": true
+        },
+        {
+          "type": "navigate_to",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "string_property",
+          "named": true
+        },
+        {
+          "type": "style_block",
+          "named": true
+        },
+        {
+          "type": "tags",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "specification_block",
     "named": true,
     "fields": {},
@@ -2000,249 +1640,86 @@
     }
   },
   {
-    "type": "style_block",
+    "type": "string_property",
     "named": true,
     "fields": {
       "key": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": "border",
-            "named": false
-          },
+            "type": "string_property_key",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "color",
-            "named": false
-          },
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "head",
-            "named": false
-          },
-          {
-            "type": "icon",
-            "named": false
-          },
-          {
-            "type": "iconColor",
-            "named": false
-          },
-          {
-            "type": "iconPosition",
-            "named": false
-          },
-          {
-            "type": "iconSize",
-            "named": false
-          },
-          {
-            "type": "line",
-            "named": false
-          },
-          {
-            "type": "multiple",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "opacity",
-            "named": false
-          },
-          {
-            "type": "padding",
-            "named": false
-          },
-          {
-            "type": "shape",
-            "named": false
-          },
-          {
-            "type": "size",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "tail",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "textSize",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
+            "type": "string",
+            "named": true
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "string_property_key",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "style_block",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "hex_color",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "lib_icon",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "percentage",
-          "named": true
-        },
-        {
-          "type": "rgb_color",
-          "named": true
-        },
-        {
-          "type": "rgba_color",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "uri_alias",
-          "named": true
-        },
-        {
-          "type": "uri_relative",
-          "named": true
-        },
-        {
-          "type": "uri_with_schema",
+          "type": "style_property",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "tag_declaration",
+    "type": "style_property",
     "named": true,
     "fields": {
       "key": {
-        "multiple": true,
-        "required": false,
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": "border",
-            "named": false
-          },
-          {
-            "type": "color",
-            "named": false
-          },
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "head",
-            "named": false
-          },
-          {
-            "type": "icon",
-            "named": false
-          },
-          {
-            "type": "iconColor",
-            "named": false
-          },
-          {
-            "type": "iconPosition",
-            "named": false
-          },
-          {
-            "type": "iconSize",
-            "named": false
-          },
-          {
-            "type": "line",
-            "named": false
-          },
-          {
-            "type": "multiple",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "opacity",
-            "named": false
-          },
-          {
-            "type": "padding",
-            "named": false
-          },
-          {
-            "type": "shape",
-            "named": false
-          },
-          {
-            "type": "size",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "tail",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "textSize",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
+            "type": "style_property_key",
+            "named": true
           }
         ]
       },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "property_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "style_property_key",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "tag_declaration",
+    "named": true,
+    "fields": {
       "name": {
         "multiple": false,
         "required": true,
@@ -2259,51 +1736,7 @@
       "required": false,
       "types": [
         {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "hex_color",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "lib_icon",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "percentage",
-          "named": true
-        },
-        {
-          "type": "rgb_color",
-          "named": true
-        },
-        {
-          "type": "rgba_color",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "uri_alias",
-          "named": true
-        },
-        {
-          "type": "uri_relative",
-          "named": true
-        },
-        {
-          "type": "uri_with_schema",
+          "type": "style_property",
           "named": true
         }
       ]
@@ -2368,36 +1801,6 @@
           }
         ]
       },
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": false,
@@ -2438,7 +1841,7 @@
           "named": true
         },
         {
-          "type": "string",
+          "type": "string_property",
           "named": true
         },
         {
@@ -2463,38 +1866,7 @@
   {
     "type": "view_group",
     "named": true,
-    "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -2521,6 +1893,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "string_property",
           "named": true
         },
         {
@@ -2560,106 +1936,11 @@
   {
     "type": "view_style_rule",
     "named": true,
-    "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "border",
-            "named": false
-          },
-          {
-            "type": "color",
-            "named": false
-          },
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "head",
-            "named": false
-          },
-          {
-            "type": "icon",
-            "named": false
-          },
-          {
-            "type": "iconColor",
-            "named": false
-          },
-          {
-            "type": "iconPosition",
-            "named": false
-          },
-          {
-            "type": "iconSize",
-            "named": false
-          },
-          {
-            "type": "line",
-            "named": false
-          },
-          {
-            "type": "multiple",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "opacity",
-            "named": false
-          },
-          {
-            "type": "padding",
-            "named": false
-          },
-          {
-            "type": "shape",
-            "named": false
-          },
-          {
-            "type": "size",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "tail",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "textSize",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "boolean",
-          "named": true
-        },
         {
           "type": "descendant_ref",
           "named": true
@@ -2673,47 +1954,7 @@
           "named": true
         },
         {
-          "type": "hex_color",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "lib_icon",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "percentage",
-          "named": true
-        },
-        {
-          "type": "rgb_color",
-          "named": true
-        },
-        {
-          "type": "rgba_color",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "uri_alias",
-          "named": true
-        },
-        {
-          "type": "uri_relative",
-          "named": true
-        },
-        {
-          "type": "uri_with_schema",
+          "type": "style_property",
           "named": true
         },
         {
@@ -2876,148 +2117,13 @@
   {
     "type": "with_clause",
     "named": true,
-    "fields": {
-      "key": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "border",
-            "named": false
-          },
-          {
-            "type": "color",
-            "named": false
-          },
-          {
-            "type": "description",
-            "named": false
-          },
-          {
-            "type": "head",
-            "named": false
-          },
-          {
-            "type": "icon",
-            "named": false
-          },
-          {
-            "type": "iconColor",
-            "named": false
-          },
-          {
-            "type": "iconPosition",
-            "named": false
-          },
-          {
-            "type": "iconSize",
-            "named": false
-          },
-          {
-            "type": "line",
-            "named": false
-          },
-          {
-            "type": "multiple",
-            "named": false
-          },
-          {
-            "type": "notation",
-            "named": false
-          },
-          {
-            "type": "notes",
-            "named": false
-          },
-          {
-            "type": "opacity",
-            "named": false
-          },
-          {
-            "type": "padding",
-            "named": false
-          },
-          {
-            "type": "shape",
-            "named": false
-          },
-          {
-            "type": "size",
-            "named": false
-          },
-          {
-            "type": "summary",
-            "named": false
-          },
-          {
-            "type": "tail",
-            "named": false
-          },
-          {
-            "type": "technology",
-            "named": false
-          },
-          {
-            "type": "textSize",
-            "named": false
-          },
-          {
-            "type": "title",
-            "named": false
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "boolean",
-          "named": true
-        },
-        {
-          "type": "hex_color",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "lib_icon",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "percentage",
-          "named": true
-        },
-        {
-          "type": "rgb_color",
-          "named": true
-        },
-        {
-          "type": "rgba_color",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "uri_alias",
-          "named": true
-        },
-        {
-          "type": "uri_relative",
-          "named": true
-        },
-        {
-          "type": "uri_with_schema",
+          "type": "style_property",
           "named": true
         }
       ]

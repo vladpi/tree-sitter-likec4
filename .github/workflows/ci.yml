@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  grammar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install --no-package-lock
+
+      - name: Generate parser
+        run: npx tree-sitter-cli generate
+
+      - name: Ensure generated files are committed
+        run: git diff --exit-code
+
+      - name: Parse smoke example
+        run: |
+          tmpfile="$(mktemp -t likec4-smoke.XXXXXX.c4)"
+          cat <<'EOF' > "$tmpfile"
+          specification {
+            element actor
+            element system
+            element service
+
+            relationship async
+          }
+
+          model {
+            customer = actor 'Customer'
+
+            platform = system 'Platform' {
+              api = service 'API'
+            }
+
+            customer -> platform.api 'uses'
+          }
+
+          views {
+            view index {
+              include *
+              autoLayout LeftRight
+            }
+          }
+          EOF
+          npx tree-sitter-cli parse "$tmpfile"
+          rm "$tmpfile"

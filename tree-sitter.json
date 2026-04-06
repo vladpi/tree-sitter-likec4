@@ -1,0 +1,24 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "likec4",
+      "camelcase": "LikeC4",
+      "scope": "source.likec4",
+      "path": ".",
+      "file-types": ["c4", "likec4"],
+      "highlights": "queries/highlights.scm",
+      "injection-regex": "^likec4$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "LikeC4 grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "vladpi"
+      }
+    ]
+  }
+}
